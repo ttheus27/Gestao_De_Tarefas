@@ -1,0 +1,61 @@
+2. Projeto de IA:
+
+Título do Projeto: Sistema de Gestão de Tarefas com IA
+
+Descrição: Desenvolver um sistema básico de gestão de tarefas utilizando IA para ajudar na organização e priorização de atividades. O sistema deve ser capaz de categorizar tarefas, sugerir prazos e enviar lembretes automáticos.
+
+Principais Etapas:
+
+2.1 Pesquisa e Planejamento (1 semana):
+
+Estudar conceitos básicos de IA e como eles podem ser aplicados na gestão de tarefas.
+Definir objetivos claros e específicos para o sistema de gestão de tarefas.
+
+2.2 Desenvolvimento (4 semanas):
+
+Selecionar uma plataforma ou ferramenta para o desenvolvimento do sistema (por exemplo, Python com bibliotecas como Scikit-learn ou TensorFlow).
+Implementar a funcionalidade de categorização de tarefas usando IA.
+Criar um sistema de recomendação de prazos baseado na complexidade e urgência das tarefas.
+
+2.3 Testes e Ajustes (2 semanas):
+
+Testar o sistema com diferentes cenários e ajustar conforme necessário.
+Coletar feedback dos usuários e realizar melhorias no sistema.
+
+2.4 Documentação e Apresentação (1 semana):
+
+Criar um relatório sobre o projeto, incluindo o processo de desenvolvimento, desafios enfrentados e soluções implementadas.
+Preparar uma apresentação para demonstrar o funcionamento do sistema e os benefícios obtidos.
+
+------------------------------------------------------------------
+
+O que sera obrigado a ter. ======>>>>>>>
+1. Objetivos Específicos:
+
+1.1 Gestão do Tempo:
+
+Aprender a planejar e organizar o trabalho de forma eficiente.
+Estabelecer e cumprir prazos para as etapas do projeto.
+Identificar e eliminar atividades que não agregam valor ao projeto.
+1.2 Eficiência Operacional:
+
+Utilizar ferramentas e técnicas para otimizar processos.
+Melhorar a produtividade ao identificar e implementar soluções automatizadas.
+
+
+---------------------------
+
+Plano de interesses.(O que estudar?)
+Aprender como manipular arquivos em TXT.
+Ver sobra cada uma dessas bibliotecasÇ
+
+	nltk: Biblioteca para processamento de linguagem natural (Natural Language Toolkit), utilizada para tokenização, stemming e outras 	operações de pré-processamento de texto.
+	sklearn: Biblioteca de aprendizado de máquina (Scikit-learn), utilizada para treinar o modelo de classificação de tarefas. 		Especificamente, utiliza as classes train_test_split, TfidfVectorizer, LogisticRegression e accuracy_score.
+	os: Biblioteca para interagir com o sistema operacional, utilizada para verificar a existência do arquivo do modelo e abrir 		arquivos para leitura e escrita.
+	time: Biblioteca para manipular data e hora, utilizada para adicionar timestamps às tarefas.
+	pickle: Biblioteca para serializar e desserializar objetos Python, utilizada para salvar e carregar o modelo treinado em um 	arquivo.
+
+Fazer as regras de negocio/criar os requisitos.
+
+
+
