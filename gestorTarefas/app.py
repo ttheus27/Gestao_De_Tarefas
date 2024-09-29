@@ -1,0 +1,116 @@
+import nltk
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+import os
+import time
+import pickle
+
+
+# Estrutura para o sistema
+# Sera com base em escolha de numeros
+
+def adicionar_tarefa(tarefa):
+    print("\nA tarefa que sera adcionada sera -->",tarefa,"<--\n")
+    while True:
+        classe = input("\nEscolha uma classe para essa tarefa:\nTrabalho\nEstudos\nCasa\n\n")
+        
+        # Faz verificação e adciona a classe junto com a tarefa
+        if classe.lower() == "trabalho" or classe.lower() == "estudos"  or classe.lower() == "casa": 
+            print("\n++++++++++++++++++++++++\nClasse adicionada\n++++++++++++++++++++++++\n")
+            break
+        else:
+            print("Nao existe essa classe")
+    # Coloca a classe e a tarefa no .TXT
+    try:
+        with open("gestorTarefas/lista.txt","a") as lista:
+            lista.write(f"{tarefa} | {classe}\n")
+    except:
+        print("Erro ao abrir o arquivo .TXT")
+    
+    print("\n-------Tarefa adicionada na sua lista-------\n")
+    
+    
+
+def excluir_tarefa(tarefa_remover):
+    print("\nVoce esta quase la para delatar esse tarefa -->",tarefa_remover,"<--\n")
+    y = int(input(f"\nVoce quer realmente excluir essa tarefa?\n'{tarefa_remover}'\n1-Sim\n2-Não\n"))
+    while True:
+        
+        if y == 1:
+                #Le o arquivo para armazenar em tarefas
+                
+            with open("gestorTarefas/lista.txt" "r") as arquivo:
+                tarefas = arquivo.readlines()
+                #Erro ao abrir aquivo lista.txx...
+            with open("gestorTarefas/lista.txt" "w") as arquivo:
+                # Verifica linha por linha para tirar a solicitada
+
+                for tarefa in tarefas:
+                    if tarefa.strip().split('|')[0] != tarefa_remover:
+                        arquivo.write(tarefa)
+                
+            print(f"Tarefa '{tarefa_remover}' foi removida com sucesso")
+           
+            print("\nTarefa deletada\n")
+            break 
+        else:
+            print("\nVoltando para a tela inicial\n")
+            break
+    
+def concluirTarefa(tarefaConcluida):
+    lista = open("gestorTarefas/concluidos.txt","a")
+    lista.write(f"{tarefaConcluida}")
+    print("\n++++++++++Tarefa concluida++++++++++")
+
+
+# Começo do cogigo
+while True:
+    print("\n================================\n1-Adicionar uma tarefa.\n2-Excluir uma tarefa da lista.\n3-Listar tarefas\n4-Concluir uma tarefa\n5-Listar tarefas conclidas\n0-Finalizar o programa.\n================================\n")
+    x = int(input("\nDigite a sua escolha:\n"))
+
+    if x == 0 : 
+        y = int(input("\nSeu programa sera encerrado\nTem certeza?\n1-Sim\n2-Nao\n"))
+        if y == 1:
+            print("\n---------Seu programa foi encerrado---------\n")
+            break
+        elif y == 2:
+            continue
+        else:
+            print("\nDigite uma das opções\n")
+    elif x == 1:
+        tarefa = input("\nQual tarefa que voce quer adicionar?\n")
+        adicionar_tarefa(tarefa)
+    elif x == 2:
+        tarefa_remover = input("\nQual tarefa que voce quer excluir?\n")
+        excluir_tarefa(tarefa_remover)
+    elif x == 3:
+        print("\nAqui estao sua tarefa em ordem de prioridade\n")
+        with open("gestorTarefas/lista.txt","r") as lista:
+            lista = lista.read()
+            print(lista)
+        while True:
+            desejo = int(input("\nDeseja sair da sua lista de tarefas?\n1-Sim\n2-Não\n"))
+            if desejo == 1:
+                print("\nOk, Saindo\n")
+                break
+            elif desejo == 2: 
+                #Tirar o continue e colocar uma print da lista, ela tera que entrar entrar no loop
+                continue
+            else:
+                print("\nEscolha uma opção valida\n")
+    elif x == 4:
+        tarefaConcluida = input("\nDigite a tarefa a ser concluida:\n")
+        concluirTarefa(tarefaConcluida)
+
+    elif x == 5:
+        print("\nAqui esta sua lista de itens concluidos:\n")
+        with open("gestorTarefas/concluidos.txt") as concluidos:
+            listaConclidos = concluidos.read()
+            print (listaConclidos)
+    else:
+        print("\nEscolha uma opção valida\n")
+    
+
+
