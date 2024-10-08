@@ -40,20 +40,30 @@ def excluir_tarefa(tarefa_remover):
         
         if y == 1:
                 #Le o arquivo para armazenar em tarefas
-                
-            with open("gestorTarefas/lista.txt" "r") as arquivo:
-                tarefas = arquivo.readlines()
-                #Erro ao abrir aquivo lista.txx...
-            with open("gestorTarefas/lista.txt" "w") as arquivo:
-                # Verifica linha por linha para tirar a solicitada
+            try:   
+                with open("gestorTarefas/lista.txt", "r") as arquivo:
+                    tarefas = arquivo.readlines()
+            except FileNotFoundError:
+                print("Erro: O arquivo de texto nao foi encontrado")
 
+            except Exception as e :
+                print("Um erro inesperado aconteceu: {e}")
+
+            tarefa_encontrada = False
+            with open("gestorTarefas/lista.txt", "w") as arquivo:
+                    # Verifica linha por linha para tirar a solicitada
                 for tarefa in tarefas:
                     if tarefa.strip().split('|')[0] != tarefa_remover:
-                        arquivo.write(tarefa)
-                
-            print(f"Tarefa '{tarefa_remover}' foi removida com sucesso")
-           
-            print("\nTarefa deletada\n")
+                        arquivo.write(tarefa)  # Se a tarefa não for a removida, escreve ela de volta no arquivo
+                    else:
+                        tarefa_encontrada = True  # Marca como encontrada
+
+            time.sleep(2)
+            if tarefa_encontrada:
+                print(f"Tarefa '{tarefa_remover}' foi removida com sucesso")
+            else: 
+                print(f"Tarefa '{tarefa_remover}' nao foi encontrada na lista")
+            
             break 
         else:
             print("\nVoltando para a tela inicial\n")
