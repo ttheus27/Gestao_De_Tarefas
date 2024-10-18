@@ -12,6 +12,7 @@ import pickle
 # Estrutura para o sistema
 # Sera com base em escolha de numeros
 
+
 def adicionar_tarefa(tarefa):
     conexao = mysql.connector.connect (
     host = 'localhost',
@@ -118,19 +119,16 @@ while True:
         excluir_tarefa(tarefa_remover)
     elif x == 3:
         print("\nAqui estao sua tarefa em ordem de prioridade\n")
-        with open("gestorTarefas/lista.txt","r") as lista:
-            lista = lista.read()
-            print(lista)
-        while True:
-            desejo = int(input("\nDeseja sair da sua lista de tarefas?\n1-Sim\n2-Não\n"))
-            if desejo == 1:
-                print("\nOk, Saindo\n")
-                break
-            elif desejo == 2: 
-                #Tirar o continue e colocar uma print da lista, ela tera que entrar entrar no loop
-                continue
-            else:
-                print("\nEscolha uma opção valida\n")
+
+
+        conexao = mysql.connector.connect (
+        host = 'localhost',
+        user= 'root', 
+        password = '',
+        database ='gestao_tarefas',
+        )
+        
+        
     elif x == 4:
         tarefaConcluida = input("\nDigite a tarefa a ser concluida:\n")
         concluirTarefa(tarefaConcluida)
