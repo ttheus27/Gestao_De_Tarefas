@@ -120,6 +120,7 @@ while True:
     elif x == 3:
         print("\nAqui estao sua tarefa em ordem de prioridade\n")
 
+        time.sleep(1)
 
         conexao = mysql.connector.connect (
         host = 'localhost',
@@ -128,6 +129,19 @@ while True:
         database ='gestao_tarefas',
         )
         
+        cursor = conexao.cursor()
+
+        consutar = 'SELECT * FROM tarefas_pendentes'
+        cursor.execute(consutar)
+        listar_tarefas = cursor.fetchall()
+
+        time.sleep(1)
+
+        for linha in listar_tarefas:
+            print (f"{linha}\n")
+
+        cursor.close()
+        conexao.close()
         
     elif x == 4:
         tarefaConcluida = input("\nDigite a tarefa a ser concluida:\n")
