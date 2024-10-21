@@ -45,51 +45,36 @@ def adicionar_tarefa(tarefa):
     cursor.close()
     conexao.close()
 
-    # try:
-    #     with open("gestorTarefas/lista.txt","a") as lista:
-    #         lista.write(f"{tarefa} | {classe}\n")
-    # except:
-    #     print("Erro ao abrir o arquivo .TXT")
-    
-    # print("\n-------Tarefa adicionada na sua lista-------\n")
     
     
 
 def excluir_tarefa(tarefa_remover):
+    #Conexacao com banco
+    conexao = mysql.connector.connect (
+        host = 'localhost',
+        user= 'root', 
+        password = '',
+        database ='gestao_tarefas',
+        )
+    cursor = conexao.cursor()
+
+
     print("\nVoce esta quase la para delatar esse tarefa -->",tarefa_remover,"<--\n")
     y = int(input(f"\nVoce quer realmente excluir essa tarefa?\n'{tarefa_remover}'\n1-Sim\n2-Não\n"))
     while True:
         
         if y == 1:
-                #Le o arquivo para armazenar em tarefas
-            try:   
-                with open("gestorTarefas/lista.txt", "r") as arquivo:
-                    tarefas = arquivo.readlines()
-            except FileNotFoundError:
-                print("Erro: O arquivo de texto nao foi encontrado")
+            deletar=  f'DELETE FROM tarefas_pendentes WHERE tarefa = "{tarefa_remover}"'
+            print ("Tarefa deletada da sua lista de afazeres")
+            break
 
-            except Exception as e :
-                print("Um erro inesperado aconteceu: {e}")
-
-            tarefa_encontrada = False
-            with open("gestorTarefas/lista.txt", "w") as arquivo:
-                    # Verifica linha por linha para tirar a solicitada
-                for tarefa in tarefas:
-                    if tarefa.strip().split('|')[0] != tarefa_remover:
-                        arquivo.write(tarefa)  # Se a tarefa não for a removida, escreve ela de volta no arquivo
-                    else:
-                        tarefa_encontrada = True  # Marca como encontrada
-
-            time.sleep(2)
-            if tarefa_encontrada:
-                print(f"Tarefa '{tarefa_remover}' foi removida com sucesso")
-            else: 
-                print(f"Tarefa '{tarefa_remover}' nao foi encontrada na lista")
-            
-            break 
         else:
             print("\nVoltando para a tela inicial\n")
             break
+
+
+    cursor.close()
+    conexao.close()
     
 def concluirTarefa(tarefaConcluida):
     lista = open("gestorTarefas/concluidos.txt","a")
@@ -138,7 +123,7 @@ while True:
         time.sleep(1)
 
         for linha in listar_tarefas:
-            print (f"{linha}\n")
+            print (f"{linha}")
 
         cursor.close()
         conexao.close()
