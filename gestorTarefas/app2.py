@@ -60,16 +60,29 @@ def excluir_tarefa(tarefa_remover):
 
 
     print("\nVoce esta quase la para delatar esse tarefa -->",tarefa_remover,"<--\n")
+    verificar_tabela= f'SELECT tarefa FROM tarefas_pendentes;'
+    cursor.execute(verificar_tabela)
+    
+
     y = int(input(f"\nVoce quer realmente excluir essa tarefa?\n'{tarefa_remover}'\n1-Sim\n2-Não\n"))
     while True:
         
         if y == 1:
-            deletar=  f'DELETE FROM tarefas_pendentes WHERE tarefa = "{tarefa_remover}"'
-            print ("Tarefa deletada da sua lista de afazeres")
+
+            deletar =  f'DELETE FROM tarefas_pendentes WHERE tarefa = "{tarefa_remover}"'
+            cursor.execute(deletar)
+            conexao.commit()
+            print ("\n---Tarefa deletada da sua lista de afazeres---\n")
+
+            time.sleep(1.5)
+
             break
 
         else:
             print("\nVoltando para a tela inicial\n")
+            
+            time.sleep(1.5)
+
             break
 
 
@@ -105,7 +118,6 @@ while True:
     elif x == 3:
         print("\nAqui estao sua tarefa em ordem de prioridade\n")
 
-        time.sleep(1)
 
         conexao = mysql.connector.connect (
         host = 'localhost',
@@ -127,6 +139,8 @@ while True:
 
         cursor.close()
         conexao.close()
+
+        time.sleep(1.5)
         
     elif x == 4:
         tarefaConcluida = input("\nDigite a tarefa a ser concluida:\n")
