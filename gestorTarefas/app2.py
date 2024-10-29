@@ -46,7 +46,6 @@ def adicionar_tarefa(tarefa):
     conexao.close()
 
     
-    
 
 def excluir_tarefa(tarefa_remover):
     #Conexacao com banco
@@ -68,15 +67,23 @@ def excluir_tarefa(tarefa_remover):
     while True:
         
         if y == 1:
+            try:
+                deletar =  f'DELETE FROM tarefas_pendentes WHERE tarefa = "{tarefa_remover}"'
+                cursor.execute(deletar)
+                conexao.commit()
+                print ("\n---Tarefa deletada da sua lista de afazeres---\n")
 
-            deletar =  f'DELETE FROM tarefas_pendentes WHERE tarefa = "{tarefa_remover}"'
-            cursor.execute(deletar)
-            conexao.commit()
-            print ("\n---Tarefa deletada da sua lista de afazeres---\n")
+                time.sleep(1.5)
 
-            time.sleep(1.5)
+                break
+            except:
+                print("Erro: Resultado nao foi encontrado na tabela.")
+                cursor.fetchall() #Limpa qualquer comando que estaja pendente
 
-            break
+                time.sleep(1)
+
+                break
+            
 
         else:
             print("\nVoltando para a tela inicial\n")
@@ -90,9 +97,21 @@ def excluir_tarefa(tarefa_remover):
     conexao.close()
     
 def concluirTarefa(tarefaConcluida):
-    lista = open("gestorTarefas/concluidos.txt","a")
-    lista.write(f"{tarefaConcluida}")
-    print("\n++++++++++Tarefa concluida++++++++++")
+    conexao = mysql.connector.connect (
+    host = 'localhost',
+    user= 'root', 
+    password = '',
+    database ='gestao_tarefas',
+    )
+    cursor = conexao.cursor()
+
+    
+
+
+    conexao.commit()
+
+    cursor.close()
+    conexao.close()
 
 
 # Começo do cogigo
@@ -128,7 +147,7 @@ while True:
         
         cursor = conexao.cursor()
 
-        consutar = 'SELECT * FROM tarefas_pendentes'
+        consutar = 'select tarefa, classe from tarefas_pendentes;'
         cursor.execute(consutar)
         listar_tarefas = cursor.fetchall()
 
@@ -147,10 +166,8 @@ while True:
         concluirTarefa(tarefaConcluida)
 
     elif x == 5:
-        print("\nAqui esta sua lista de itens concluidos:\n")
-        with open("gestorTarefas/concluidos.txt") as concluidos:
-            listaConclidos = concluidos.read()
-            print (listaConclidos)
+        tarefa_concluida = input("\nAqui esta sua lista de itens concluidos:\n")
+        concluirTarefa(tarefa_concluida)
     else:
         print("\nEscolha uma opção valida\n")
     
