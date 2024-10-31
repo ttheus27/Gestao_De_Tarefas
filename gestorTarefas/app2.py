@@ -105,10 +105,31 @@ def concluirTarefa(tarefaConcluida):
     )
     cursor = conexao.cursor()
 
-    
+    try:
+        # Seleciona a tarefa que esta no banco
+        select_tarefa = f'SELECT * FROM tarefas_pendentes WHERE tarefa = "{tarefaConcluida}"'
+        cursor.execute(select_tarefa)
 
+        # Armazena a a linha em tarefa_selecionada
+        tarefa_selecionada = cursor.fetchone()
+        print(tarefa_selecionada)
 
-    conexao.commit()
+        # Insere o valor na tabela de concluidos
+        insert_query = 'INSERT INTO tarefas_concluidas (id_tarf, tarefa_concluida, classe_tarf) VALUES (%s, %s, %s)'
+        cursor.execute(insert_query, tarefa_selecionada)
+
+        # Retira da tabela de pendencias
+        excluir_pendencia = f'DELETE FROM tarefas_pendentes WHERE tarefa = "{tarefaConcluida}"'
+        cursor.execute(excluir_pendencia)
+
+        conexao.commit()
+
+        time.sleep(1)
+
+        print("Tarefa concluida")
+    except:
+        print("Erro: resultado nao encontrado")
+        cursor.fetchall()
 
     cursor.close()
     conexao.close()
@@ -166,8 +187,30 @@ while True:
         concluirTarefa(tarefaConcluida)
 
     elif x == 5:
-        tarefa_concluida = input("\nAqui esta sua lista de itens concluidos:\n")
-        concluirTarefa(tarefa_concluida)
+        print("Aqui esta sua lista de tarefas conclidas...\n")
+
+        time.sleep(1.5)
+
+        conexao = mysql.connector.connect (
+        host = 'localhost',
+        user= 'root', 
+        password = '',
+        database ='gestao_tarefas',
+        )
+
+        cursor = conexao.cursor()
+
+        consutar = 'select tarefa_concluida, classe_tarf from tarefas_concluidas;'
+        cursor.execute(consutar)
+        listar_tarefas = cursor.fetchall()
+
+        for i in listar_tarefas:
+            print(i)
+        
+        time.sleep(1)
+        
+        cursor.close()
+        conexao.close()
     else:
         print("\nEscolha uma opção valida\n")
     
