@@ -92,6 +92,95 @@ def adicionar_tarefa(tarefa):
 
     cursor.close()
     conexao.close()
+    
+
+def excluir_tarefa(tarefa_remover):
+    #Conexacao com banco
+    conexao = mysql.connector.connect (
+        host = 'localhost',
+        user= 'root', 
+        password = '',
+        database ='gestao_tarefas',
+        )
+    cursor = conexao.cursor()
+
+
+    print("\nVoce esta quase la para delatar esse tarefa -->",tarefa_remover,"<--\n")
+    verificar_tabela= f'SELECT tarefa FROM tarefas_pendentes;'
+    cursor.execute(verificar_tabela)
+
+
+    y = int(input(f"\nVoce quer realmente excluir essa tarefa?\n'{tarefa_remover}'\n1-Sim\n2-Não\n"))
+    while True:
+
+        if y == 1:
+            try:
+                 # Limpa quaisquer resultados pendentes antes de executar a nova query
+                while cursor.nextset():
+                    cursor.fetchall()
+
+                deletar = 'DELETE FROM tarefas_pendentes WHERE tarefa = %s'
+                cursor.execute(deletar, (tarefa_remover,)) 
+                conexao.commit()
+
+                if cursor.rowcount > 0:
+                    print("\n---Tarefa deletada da sua lista de afazeres---\n")
+                else:
+                    print("\n---Tarefa não encontrada na sua lista de afazeres---\n")
+
+                time.sleep(1.5)
+                break
+            except Exception as e: 
+                print(f"Erro: {e}")
+                time.sleep(1)
+                break
+
+        else:
+            print("\nVoltando para a tela inicial\n")
+
+            time.sleep(1.5)
+
+            break
+
+
+    cursor.close()
+    conexao.close()
+
+def concluirTarefa(tarefaConcluida):
+    conexao = mysql.connector.connect (
+    host = 'localhost',
+    user= 'root', 
+    password = '',
+    database ='gestao_tarefas',
+    )
+    cursor = conexao.cursor()
+
+    
+    try:
+        # Seleciona a tarefa que esta no banco
+        select_tarefa = f'SELECT * FROM tarefas_pendentes WHERE tarefa = "{tarefaConcluida}"'
+        cursor.execute(select_tarefa)
+
+        # Armazena a a linha em tarefa_selecionada
+        tarefa_selecionada = cursor.fetchone()
+        print(tarefa_selecionada)
+
+        # Insere o valor na tabela de concluidos
+        insert_query = 'INSERT INTO tarefas_concluidas (id_tarf, tarefa_concluida, classe_tarf) VALUES (%s, %s, %s)'
+        cursor.execute(insert_query, tarefa_selecionada)
+        # Retira da tabela de pendencias
+        excluir_pendencia = f'DELETE FROM tarefas_pendentes WHERE tarefa = "{tarefaConcluida}"'
+        cursor.execute(excluir_pendencia)
+        conexao.commit()
+        time.sleep(1)
+        print("Tarefa concluida")
+    except:
+        print("Erro: resultado nao encontrado")
+        cursor.fetchall()
+
+
+    cursor.close()
+    conexao.close()
 if __name__ == "__main__":
     # Treina o modelo ao iniciar o programa
     print("Treinando o modelo de classificação...")
