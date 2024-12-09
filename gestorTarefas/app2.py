@@ -10,7 +10,7 @@ vectorizer = None
 model = None
 
 def treinar_modelo():
-    """Treina o modelo de classificação com dados simulados."""
+    #Treina o modelo de classificação com dados simulados.
     global vectorizer, model
     
     # Exemplo de dados para treinamento (pode ser substituído por dados reais do banco)
@@ -47,7 +47,7 @@ def treinar_modelo():
     print(f"Acurácia do modelo: {accuracy:.2f}")
 
 def sugerir_classe(tarefa):
-    """Sugere uma classe com base no texto da tarefa."""
+    #Sugere uma classe com base no texto da tarefa.
     global vectorizer, model
     if vectorizer is None or model is None:
         print("O modelo ainda não foi treinado!")
@@ -58,14 +58,18 @@ def sugerir_classe(tarefa):
     return classe
 
 def adicionar_tarefa(tarefa):
-    """Adiciona uma tarefa sugerindo automaticamente a classe."""
-    conexao = mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='',
-        database='gestao_tarefas',
-    )
-    cursor = conexao.cursor()
+    #Adiciona uma tarefa sugerindo automaticamente a classe.
+    try:
+        conexao = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='',
+            database='gestao_tarefas',
+        )
+        cursor = conexao.cursor()
+    except Exception as e: 
+            print(f"Erro: {e}")
+            time.sleep(1)
 
     # Sugere a classe com base no texto
     classe_sugerida = sugerir_classe(tarefa)
@@ -96,28 +100,29 @@ def adicionar_tarefa(tarefa):
 
 def excluir_tarefa(tarefa_remover):
     #Conexacao com banco
-    conexao = mysql.connector.connect (
-        host = 'localhost',
-        user= 'root', 
-        password = '',
-        database ='gestao_tarefas',
-        )
-    cursor = conexao.cursor()
+    try:
+        conexao = mysql.connector.connect (
+            host = 'localhost',
+            user= 'root', 
+            password = '',
+            database ='gestao_tarefas',
+            )
+        cursor = conexao.cursor()
+    except Exception as e: 
+                print(f"Erro: {e}")
+                time.sleep(1)
 
 
     print("\nVoce esta quase la para delatar esse tarefa -->",tarefa_remover,"<--\n")
-    verificar_tabela= f'SELECT tarefa FROM tarefas_pendentes;'
-    cursor.execute(verificar_tabela)
+    #verificar_tabela= f'SELECT tarefa FROM tarefas_pendentes;'
+    #cursor.execute(verificar_tabela)
 
 
-    y = input(f"\nVoce quer realmente excluir essa tarefa?\n'{tarefa_remover}'\n1-Sim\n2-Não\n")
+    y = int(input(f"\nVoce quer realmente excluir essa tarefa?\n'{tarefa_remover}'\n1-Sim\n2-Não\n"))
     while True:
 
         if y == 1:
             try:
-                 # Limpa quaisquer resultados pendentes antes de executar a nova query
-                while cursor.nextset():
-                    cursor.fetchall()
 
                 deletar = 'DELETE FROM tarefas_pendentes WHERE tarefa = %s'
                 cursor.execute(deletar, (tarefa_remover,)) 
@@ -147,13 +152,17 @@ def excluir_tarefa(tarefa_remover):
     conexao.close()
 
 def concluirTarefa(tarefaConcluida):
-    conexao = mysql.connector.connect (
-    host = 'localhost',
-    user= 'root', 
-    password = '',
-    database ='gestao_tarefas',
-    )
-    cursor = conexao.cursor()
+    try:
+        conexao = mysql.connector.connect (
+        host = 'localhost',
+        user= 'root', 
+        password = '',
+        database ='gestao_tarefas',
+        )
+        cursor = conexao.cursor()
+    except Exception as e: 
+            print(f"Erro: {e}")
+            time.sleep(1)
 
     
     try:
