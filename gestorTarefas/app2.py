@@ -110,7 +110,7 @@ def excluir_tarefa(tarefa_remover):
     cursor.execute(verificar_tabela)
 
 
-    y = int(input(f"\nVoce quer realmente excluir essa tarefa?\n'{tarefa_remover}'\n1-Sim\n2-Não\n"))
+    y = input(f"\nVoce quer realmente excluir essa tarefa?\n'{tarefa_remover}'\n1-Sim\n2-Não\n")
     while True:
 
         if y == 1:
@@ -187,11 +187,13 @@ if __name__ == "__main__":
     treinar_modelo()
 
     while True:
-        try:
-            print("\n================================\n1-Adicionar uma tarefa.\n2-Excluir uma tarefa da lista.\n3-Listar tarefas\n4-Concluir uma tarefa\n5-Listar tarefas concluídas\n0-Finalizar o programa.\n================================\n")
-            x = int(input("\nDigite a sua escolha:\n"))
-        except:
-            print("Erro na escolha, por favor coloque um valido")
+        print("\n================================\n1-Adicionar uma tarefa.\n2-Excluir uma tarefa da lista.\n3-Listar tarefas\n4-Concluir uma tarefa\n5-Listar tarefas concluídas\n0-Finalizar o programa.\n================================\n")
+        x = input("\nDigite a sua escolha:\n")
+        if not x.isdigit():  
+            print("Escolha inválida. Por favor, digite um número.")
+            continue
+    
+        x = int(x) 
 
         if x == 0:
             y = int(input("\nSeu programa será encerrado\nTem certeza?\n1-Sim\n2-Não\n"))
@@ -210,22 +212,40 @@ if __name__ == "__main__":
             excluir_tarefa(tarefa_remover)
         elif x == 3:
             print("\nAqui estão suas tarefas em ordem de prioridade\n")
-            conexao = mysql.connector.connect(
-                host='localhost',
-                user='root',
-                password='',
-                database='gestao_tarefas',
-            )
-            cursor = conexao.cursor()
-            consulta = 'SELECT tarefa, classe FROM tarefas_pendentes;'
-            cursor.execute(consulta)
-            listar_tarefas = cursor.fetchall()
+            try:
+                conexao = mysql.connector.connect(
+                    host='localhost',
+                    user='root',
+                    password='',
+                    database='gestao_tarefas',
+                )
+                cursor = conexao.cursor()
+            except Exception as e: 
+                print(f"Error:{e}")
             
+            try:
+                consulta = '''
+                    SELECT tarefa, classe
+                    FROM tarefas_pendentes
+                    ORDER BY
+                        CASE
+                            WHEN classe = 'trabalho' THEN 1
+                            WHEN classe = 'faculdade' THEN 2
+                            WHEN classe = 'casa' THEN 3
+                        END
+                    '''
+                cursor.execute(consulta)
+                listar_tarefas = cursor.fetchall()
+            except Exception as e: 
+                print(f"Error:{e}")
+                
             time.sleep(1)
 
-            for linha in listar_tarefas:
-                print(f"{linha}")
-                time.sleep(0.5)
+            for tarefa, classe in listar_tarefas:
+                print(f"Tarefa: {tarefa} | Classe: {classe.capitalize()}")
+                time.sleep(0.2)
+            
+            time.sleep(0.5)
             cursor.close()
             conexao.close()
         elif x == 4:
@@ -248,4 +268,8 @@ if __name__ == "__main__":
             cursor.close()
             conexao.close()
         else:
+            time.sleep(1)
+
             print("\nEscolha uma opção válida\n") 
+
+            time.sleep(1)
