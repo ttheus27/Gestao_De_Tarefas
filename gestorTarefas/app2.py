@@ -16,16 +16,37 @@ def treinar_modelo():
     # Exemplo de dados para treinamento (pode ser substituído por dados reais do banco)
     data = {
         "tarefa": [
-            "Finalizar relatório do projeto", "Responder e-mails do trabalho", "Preparar apresentação para reunião", "Lançar notas que estao no Jira",
+            "Finalizar relatório do projeto", "Responder e-mails do trabalho", "Preparar apresentação para reunião", "Lançar notas que estão no Jira",
             "Estudar para a prova de cálculo", "Revisar matéria de programação", "Fazer exercícios de álgebra",
-            "Organizar o armário", "Lavar roupa acumulada", "Limpar o banheiro"
+            "Organizar o armário", "Lavar roupa acumulada", "Limpar o banheiro", "Arrumar cama",
+            "Planejar metas da equipe", "Conferir orçamento do projeto", "Atualizar documento de escopo",
+            "Estudar para a prova de estatística", "Fazer trabalho de grupo de banco de dados", "Participar do simulado de cálculo",
+            "Varrer a casa", "Trocar lençóis da cama", "Lavar louça do jantar", "Cuidar das plantas",
+            "Enviar propostas para clientes", "Criar planilha de vendas", "Revisar contrato do cliente",
+            "Assistir aula gravada de arquitetura de software", "Resolver questões do portal do aluno", "Preparar resumo para seminário de engenharia",
+            "Limpar a geladeira", "Tirar o lixo", "Passar roupa para a semana", "Desentupir o ralo da pia",
+            "Atualizar o repositório no GitHub", "Documentar tarefas pendentes", "Testar funcionalidade do sistema",
+            "Ler artigos sobre aprendizado de máquina", "Assistir aula gravada de sistemas distribuídos", "Resolver exercícios de estruturas de dados",
+            "Arrumar a garagem", "Trocar a lâmpada queimada", "Limpar vidros das janelas", "Organizar sapatos na entrada",
+            "Enviar orçamento final para o cliente", "Revisar políticas de qualidade do projeto", "Criar cronograma de entregas"
         ],
         "classe": [
             "trabalho", "trabalho", "trabalho", "trabalho",
             "faculdade", "faculdade", "faculdade",
-            "casa", "casa", "casa"
+            "casa", "casa", "casa", "casa",
+            "trabalho", "trabalho", "trabalho",
+            "faculdade", "faculdade", "faculdade",
+            "casa", "casa", "casa", "casa",
+            "trabalho", "trabalho", "trabalho",
+            "faculdade", "faculdade", "faculdade",
+            "casa", "casa", "casa", "casa",
+            "trabalho", "trabalho", "trabalho",
+            "faculdade", "faculdade", "faculdade",
+            "casa", "casa", "casa", "casa",
+            "trabalho", "trabalho", "trabalho"
         ]
     }
+
     
     # Divisão em treino e teste
     X = data["tarefa"]
