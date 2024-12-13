@@ -223,7 +223,7 @@ if __name__ == "__main__":
             print("Escolha inválida. Por favor, digite um número.")
             continue
     
-        x = int(x) 
+        x = int(x)  
 
         if x == 0:
             y = int(input("\nSeu programa será encerrado\nTem certeza?\n1-Sim\n2-Não\n"))
